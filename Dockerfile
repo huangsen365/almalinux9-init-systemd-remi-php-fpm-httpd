@@ -65,8 +65,8 @@ RUN systemctl enable php84-php-fpm.service httpd.service crond.service
 #RUN dnf clean all
 RUN dnf -y update && dnf clean all
 
-# Expose the HTTP port
-EXPOSE 80
+# Expose the HTTPS port
+EXPOSE 443
 
 # Set up volume for systemd to mount cgroups
 VOLUME [ "/sys/fs/cgroup" ]
