@@ -17,7 +17,7 @@ RUN dnf -y update && \
     dnf -y install ffmpeg ffmpeg-devel && \
     dnf -y install tmux htop && \
     dnf -y update
-#    dnf clean all
+    #dnf clean all
 
 # Fix the "ServerName localhost" warning in Apache
 RUN echo "ServerName localhost" >> /etc/httpd/conf/httpd.conf
