@@ -21,7 +21,7 @@ RUN dnf -y update && \
 # Fix the "ServerName localhost" warning in Apache
 RUN echo "ServerName localhost" >> /etc/httpd/conf/httpd.conf
 
-# wget https://raw-githubusercontent-com.jiasu.yunbiyun.com/huangsen365/almalinux9-init-systemd-remi-php-fpm-httpd/refs/heads/master/yum_basics.txt
+# wget https://raw-githubusercontent-com.jiasu.yunbiyun.com/huangsen365/almalinux9-init-systemd-remi-php-fpm-httpd/refs/heads/main/dnf_basics.txt
 ADD dnf_basics.txt /opt/dnf_basics.txt
 RUN dnf -y install $(cat /opt/dnf_basics.txt | grep -v '#') && \
     dnf -y install php74 php84 \
