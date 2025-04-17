@@ -10,13 +10,13 @@ LABEL maintainer="admin@wansio.com"
 # Install Apache HTTPD and PHP-FPM (Remi repository) / epel-release 
 RUN dnf -y update && \
     dnf -y install ncurses wget httpd && \
-	dnf -y install https://dl-fedoraproject-org.jiasu.yunbiyun.com/pub/epel/epel-release-latest-$(rpm -E %rhel).noarch.rpm && \
-	dnf -y install https://rpms-remirepo-net.jiasu.yunbiyun.com/enterprise/remi-release-$(rpm -E %rhel).rpm && \
-	dnf config-manager --set-enabled crb && \
-	dnf -y install --nogpgcheck https://mirror-fcix-net.jiasu.yunbiyun.com/rpmfusion/free/el/rpmfusion-free-release-$(rpm -E %rhel).noarch.rpm https://mirror-fcix-net.jiasu.yunbiyun.com/rpmfusion/nonfree/el/rpmfusion-nonfree-release-$(rpm -E %rhel).noarch.rpm && \
-	dnf -y install ffmpeg ffmpeg-devel && \
-	dnf -y install tmux htop && \
-	dnf -y update
+    dnf config-manager --set-enabled crb && \
+    dnf -y install https://dl-fedoraproject-org.jiasu.yunbiyun.com/pub/epel/epel-release-latest-$(rpm -E %rhel).noarch.rpm && \
+    dnf -y install https://rpms-remirepo-net.jiasu.yunbiyun.com/enterprise/remi-release-$(rpm -E %rhel).rpm && \
+    dnf -y install --nogpgcheck https://mirror-fcix-net.jiasu.yunbiyun.com/rpmfusion/free/el/rpmfusion-free-release-$(rpm -E %rhel).noarch.rpm https://mirror-fcix-net.jiasu.yunbiyun.com/rpmfusion/nonfree/el/rpmfusion-nonfree-release-$(rpm -E %rhel).noarch.rpm && \
+    dnf -y install ffmpeg ffmpeg-devel && \
+    dnf -y install tmux htop && \
+    dnf -y update
 #    dnf clean all
 
 # Fix the "ServerName localhost" warning in Apache
@@ -26,7 +26,7 @@ RUN echo "ServerName localhost" >> /etc/httpd/conf/httpd.conf
 
 # wget https://raw-githubusercontent-com.jiasu.yunbiyun.com/huangsen365/almalinux9-init-systemd-remi-php-fpm-httpd/refs/heads/master/yum_basics.txt
 ADD dnf_basics.txt /opt/dnf_basics.txt
-RUN dnf -y install $(cat /opt/dnf_basics.txt | grep -v \#) && \
+RUN dnf -y install $(cat /opt/dnf_basics.txt | grep -v '#') && \
     dnf -y install php74 php84 \
 	php74-php-fpm php84-php-fpm
 
