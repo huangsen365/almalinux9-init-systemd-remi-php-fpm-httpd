@@ -1,0 +1,4 @@
+php84-php-pecl-mongodb
+php84-php-pecl-xhprof
+php84-xhprof
+php84-php-pecl-vips

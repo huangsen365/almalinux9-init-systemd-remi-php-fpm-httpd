@@ -1,0 +1,4 @@
+php74-php-oci8
+php74-php-smbclient
+php74-php-pecl-imagick
+php74-php-pecl-imagick-devel
