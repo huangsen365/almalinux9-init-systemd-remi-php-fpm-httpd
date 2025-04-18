@@ -32,3 +32,4 @@ wget
 whois
 zip
 zlib-devel
+iputils
