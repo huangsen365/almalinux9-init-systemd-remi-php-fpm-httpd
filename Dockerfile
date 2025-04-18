@@ -35,8 +35,9 @@ COPY php-fpm_8401_www.yourdomain.com_NEW2.conf_template /etc/opt/remi/php84/php-
 ADD somefiles_for_dnf /opt/almalinux9-init-systemd-remi-php-fpm-httpd/somefiles_for_dnf
 RUN dnf -y install $(cat /opt/almalinux9-init-systemd-remi-php-fpm-httpd/somefiles_for_dnf/dnf_search_php_extensions_list_php74_defined.txt)
 RUN dnf -y install $(cat /opt/almalinux9-init-systemd-remi-php-fpm-httpd/somefiles_for_dnf/dnf_search_php_extensions_list_php84_defined.txt)
-RUN dnf -y install $(cat /opt/almalinux9-init-systemd-remi-php-fpm-httpd/somefiles_for_dnf/dnf_search_php_extensions_list_php74_defined2.txt) --exclude="$(cat /opt/almalinux9-init-systemd-remi-php-fpm-httpd/somefiles_for_dnf/dnf_search_php_extensions_list_php74_defined2-exclude.txt)"
-RUN dnf -y install $(cat /opt/almalinux9-init-systemd-remi-php-fpm-httpd/somefiles_for_dnf/dnf_search_php_extensions_list_php84_defined2.txt) --exclude="$(cat /opt/almalinux9-init-systemd-remi-php-fpm-httpd/somefiles_for_dnf/dnf_search_php_extensions_list_php84_defined2-exclude.txt)"
+RUN dnf -y install $(cat /opt/almalinux9-init-systemd-remi-php-fpm-httpd/somefiles_for_dnf/dnf_search_php_extensions_list_php74_defined2.txt | grep -v '#') --exclude="$(cat /opt/almalinux9-init-systemd-remi-php-fpm-httpd/somefiles_for_dnf/dnf_search_php_extensions_list_php74_defined2-exclude.txt)"
+RUN dnf -y install $(cat /opt/almalinux9-init-systemd-remi-php-fpm-httpd/somefiles_for_dnf/dnf_search_php_extensions_list_php84_defined2.txt | grep -v '#') --exclude="$(cat /opt/almalinux9-init-systemd-remi-php-fpm-httpd/somefiles_for_dnf/dnf_search_php_extensions_list_php84_defined2-exclude.txt)"
+
 
 ADD somefiles /opt/almalinux9-init-systemd-remi-php-fpm-httpd/somefiles
 RUN sh /opt/almalinux9-init-systemd-remi-php-fpm-httpd/somefiles/mkdir.sh

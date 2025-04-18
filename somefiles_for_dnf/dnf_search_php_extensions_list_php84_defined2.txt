@@ -82,7 +82,7 @@ php84-php-pecl-pspell
 php84-php-pecl-quickhash
 php84-php-pecl-raphf
 php84-php-pecl-rar
-php84-php-pecl-rdkafka6
+#php84-php-pecl-rdkafka6
 php84-php-pecl-recode
 php84-php-pecl-redis6
 php84-php-pecl-rpminfo
@@ -96,7 +96,7 @@ php84-php-pecl-seasclick
 php84-php-pecl-seassnowflake
 php84-php-pecl-selinux
 php84-php-pecl-simdjson
-php84-php-pecl-simple-kafka-client
+#php84-php-pecl-simple-kafka-client
 php84-php-pecl-skywalking
 php84-php-pecl-solr2
 php84-php-pecl-ssdeep

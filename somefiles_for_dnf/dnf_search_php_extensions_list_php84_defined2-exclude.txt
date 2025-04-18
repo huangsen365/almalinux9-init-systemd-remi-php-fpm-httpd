@@ -2,3 +2,5 @@ php84-php-pecl-mongodb
 php84-php-pecl-xhprof
 php84-xhprof
 php84-php-pecl-vips
+php84-php-pecl-rdkafka6
+php84-php-pecl-simple-kafka-client
