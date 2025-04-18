@@ -19,7 +19,7 @@ existing_container=$(docker ps -aq --filter name=c_* --filter ancestor=huangsen3
 # Check if a container with the name pattern exists
 if [ -z "$existing_container" ]; then
   # No container matching c_* exists, or all matching containers are stopped
-  echo "No container matching c_* exists, proceeding to start a new one..."
+  echo -e "\033[0;32mNo container matching c_* exists, proceeding to start a new one...\033[0m"
 
   # Perform rsync to backup specific directories, excluding certain files
   rsync -av --exclude '/sshuser/.ssh' --exclude '/sshuser/dotfiles' \
@@ -64,7 +64,7 @@ if [ -z "$existing_container" ]; then
     --name $cotainer_name \
     huangsen365/almalinux9-init-systemd-remi-php-fpm-httpd
 else
-  echo -e "\033[31mContainer matching c_* already exists or is running. Proceeding with other tasks...\033[0m"
+  echo -e "\033[0;31mContainer matching c_* already exists or is running. Proceeding with other tasks...\033[0m"
 
   # Optionally perform other tasks here (like backups or maintenance) if container is already running
 fi

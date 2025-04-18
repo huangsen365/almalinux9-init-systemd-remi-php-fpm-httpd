@@ -15,7 +15,7 @@ if [ -n "$REMIPHPPATH" ]; then
         echo -e "\033[0;31mFound docker containers named as c_* and based on the specified image, please manage them properly and then rerun this script!\nAborting this action...\033[0m"
         exit 1
     else
-        echo "Not found existing docker containers named as c_* and based on the specified image, this script will continue in 3 seconds..."
+        echo -e "\033[0;32mNot found existing docker containers named as c_* and based on the specified image, this script will continue in 3 seconds...\033[0m"
         sleep 3
         echo "ready go in 1s!"
         sleep 1
