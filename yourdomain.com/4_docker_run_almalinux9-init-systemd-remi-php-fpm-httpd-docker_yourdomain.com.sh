@@ -13,29 +13,33 @@ log_dir_name=log_$date_and_hostname
 cron_dir_name=cron_$date_and_hostname
 cotainer_name=c_$date_and_hostname
 
-# Perform rsync to backup specific directories, excluding certain files
-rsync -av --exclude '/sshuser/.ssh' --exclude '/sshuser/dotfiles' \
-  $current_dir/volumes/volume_yourdomain.com/home/ \
-  $current_dir/volumes/volume_yourdomain.com/$home_dir_name/
+# Check if any container named c_* from a specific image exists (running or stopped)
+existing_container=$(docker ps -aq --filter name=c_* --filter ancestor=huangsen365/almalinux9-init-systemd-remi-php-fpm-httpd)
 
-rsync -av --exclude '/.ssh' --exclude '/dotfiles' --exclude '/shared' \
-  $current_dir/volumes/volume_yourdomain.com/root/ \
-  $current_dir/volumes/volume_yourdomain.com/$root_dir_name/
-
-rsync -av $current_dir/volumes/volume_yourdomain.com/var/log/ \
-  $current_dir/volumes/volume_yourdomain.com/var/$log_dir_name/
-
-rsync -av $current_dir/volumes/volume_yourdomain.com/var/spool/cron/ \
-  $current_dir/volumes/volume_yourdomain.com/var/spool/$cron_dir_name/
-
-# Check if the container is already running, if not, start it
-existing_container=$(docker ps -q -f "name=$cotainer_name")
-
+# Check if a container with the name pattern exists
 if [ -z "$existing_container" ]; then
-  # Run Docker container if it isn't already running
+  # No container matching c_* exists, or all matching containers are stopped
+  echo "No container matching c_* exists, proceeding to start a new one..."
+
+  # Perform rsync to backup specific directories, excluding certain files
+  rsync -av --exclude '/sshuser/.ssh' --exclude '/sshuser/dotfiles' \
+    $current_dir/volumes/volume_yourdomain.com/home/ \
+    $current_dir/volumes/volume_yourdomain.com/$home_dir_name/
+
+  rsync -av --exclude '/.ssh' --exclude '/dotfiles' --exclude '/shared' \
+    $current_dir/volumes/volume_yourdomain.com/root/ \
+    $current_dir/volumes/volume_yourdomain.com/$root_dir_name/
+
+  rsync -av $current_dir/volumes/volume_yourdomain.com/var/log/ \
+    $current_dir/volumes/volume_yourdomain.com/var/$log_dir_name/
+
+  rsync -av $current_dir/volumes/volume_yourdomain.com/var/spool/cron/ \
+    $current_dir/volumes/volume_yourdomain.com/var/spool/$cron_dir_name/
+
+  # Start a new container if none found
   docker run -d \
     --privileged \
-	--cgroupns=host \
+    --cgroupns=host \
     -v /sys/fs/cgroup:/sys/fs/cgroup:rw \
     -v $current_dir/volumes/volume_yourdomain.com/$home_dir_name:/home \
     -v $current_dir/volumes/volume_yourdomain.com/home/sshuser/.ssh:/home/sshuser/.ssh \
@@ -60,5 +64,7 @@ if [ -z "$existing_container" ]; then
     --name $cotainer_name \
     huangsen365/almalinux9-init-systemd-remi-php-fpm-httpd
 else
-  echo "Container $cotainer_name is already running."
+  echo -e "\033[31mContainer matching c_* already exists or is running. Proceeding with other tasks...\033[0m"
+
+  # Optionally perform other tasks here (like backups or maintenance) if container is already running
 fi
