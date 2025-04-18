@@ -8,7 +8,8 @@ RUN dnf -y install dnf-plugins-core && \
     dnf config-manager --set-enabled crb
 
 # Install Apache HTTPD and PHP-FPM (Remi repository) / epel-release 
-RUN dnf -y update && \
+RUN echo "ip_resolve=4" >> /etc/dnf/dnf.conf && \
+    dnf -y update && \
     dnf -y install ncurses wget httpd && \
     dnf -y install https://dl-fedoraproject-org.jiasu.yunbiyun.com/pub/epel/epel-release-latest-$(rpm -E %rhel).noarch.rpm && \
     dnf -y install https://rpms-remirepo-net.jiasu.yunbiyun.com/enterprise/remi-release-$(rpm -E %rhel).rpm && \
