@@ -4,6 +4,9 @@ FROM almalinux/9-init
 # Set the maintainer label
 LABEL maintainer="admin@wansio.com"
 
+# Set HOME environment variable to /root
+ENV HOME=/root
+
 RUN dnf -y install dnf-plugins-core && \
     dnf config-manager --set-enabled crb
 
@@ -65,6 +68,8 @@ RUN dnf -y update && dnf clean all
 
 # Expose the HTTPS port
 EXPOSE 443
+
+WORKDIR $HOME
 
 # Set up volume for systemd to mount cgroups
 VOLUME [ "/sys/fs/cgroup" ]
