@@ -55,7 +55,8 @@ RUN sh /opt/almalinux9-init-systemd-remi-php-fpm-httpd/somefiles_for_scripts/mar
 # RUN echo "<html><body><h1>Apache and PHP are running in AlmaLinux 9 Init Container</h1></body></html>" > /var/www/html/index.php
 
 # Enable the php84-php-fpm and httpd service
-RUN systemctl disable php74-php-fpm.service sshd.service
+RUN systemctl disable sshd.service
+RUN systemctl enable php74-php-fpm.service
 RUN systemctl enable php84-php-fpm.service httpd.service crond.service 
 
 #RUN dnf clean all
