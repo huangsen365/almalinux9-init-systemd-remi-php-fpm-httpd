@@ -5,17 +5,29 @@ if [ -n "$REMIPHPPATH" ]; then
     echo "REMIPHPPATH is : ${REMIPHPPATH}"
 
     cd ${REMIPHPPATH}/yourdomain.com
+	
+    # existing_container=$(docker ps -aq --filter name=c_* --filter ancestor=huangsen365/almalinux9-init-systemd-remi-php-fpm-httpd)
 
-    # Check if any container named c_* based on the specific image exists (running or stopped)
-    existing_container=$(docker ps -aq --filter name=c_* --filter ancestor=huangsen365/almalinux9-init-systemd-remi-php-fpm-httpd)
+    # Get all container IDs and filter by the image name
+    container_ids=$(docker ps -aq)
+    existing_containers=""
 
-    # Check if a container matching c_* based on the image exists
-    if [ -n "$existing_container" ]; then
-        echo -e "\033[0;31m发现已有命名为 c_* 的实例，且基于指定镜像，请妥当操作之再重新执行本脚本!\n正在取消本次操作...\033[0m"
-        echo -e "\033[0;31mFound docker containers named as c_* and based on the specified image, please manage them properly and then rerun this script!\nAborting this action...\033[0m"
+    # If there are container IDs, inspect them
+    if [ -n "$container_ids" ]; then
+        existing_containers=$(echo "$container_ids" | xargs docker inspect --format '{{.Id}}: {{.Config.Image}}' | grep 'huangsen365/almalinux9-init-systemd-remi-php-fpm-httpd' | awk -F: '{print $1}')
+    fi
+
+    # Check if any container based on the image exists
+    if [ -n "$existing_containers" ]; then
+        echo -e "\033[0;31m发现已有基于指定镜像的容器，请妥当操作之再重新执行本脚本!\n正在取消本次操作...\033[0m"
+        echo -e "\033[0;31mFound docker containers based on the specified image, please manage them properly and then rerun this script!\nAborting this action...\033[0m"
+
+        # List the containers for user's information (based on the image)
+        echo -e "\033[0;33m以下是现有容器ID及相关信息:\033[0m"
+        echo "$existing_containers"
         exit 1
     else
-        echo -e "\033[0;32mNot found existing docker containers named as c_* and based on the specified image, this script will continue in 3 seconds...\033[0m"
+        echo -e "\033[0;32mNot found existing docker containers based on the specified image, this script will continue in 3 seconds...\033[0m"
         sleep 3
         echo "ready go in 1s!"
         sleep 1

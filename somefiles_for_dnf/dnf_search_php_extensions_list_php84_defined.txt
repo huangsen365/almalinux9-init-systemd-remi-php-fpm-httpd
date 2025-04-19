@@ -22,7 +22,7 @@ php84-php-gd
 php84-php-geos
 php84-php-gmp
 php84-php-intl
-php84-php-ioncube-loader
+#php84-php-ioncube-loader
 php84-php-kjdev-bzip3
 php84-php-ldap
 php84-php-libvirt

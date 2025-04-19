@@ -4,3 +4,4 @@ php84-xhprof
 php84-php-pecl-vips
 php84-php-pecl-rdkafka6
 php84-php-pecl-simple-kafka-client
+php84-php-ioncube-loader
