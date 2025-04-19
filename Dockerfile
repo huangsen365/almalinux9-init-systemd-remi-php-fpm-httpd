@@ -52,6 +52,9 @@ RUN sed -i '/include\=\/etc\/opt\/remi\/php84\/php-fpm.d\/\*\.conf/a include\=\/
 ADD somefiles_for_scripts /opt/almalinux9-init-systemd-remi-php-fpm-httpd/somefiles_for_scripts
 RUN sh /opt/almalinux9-init-systemd-remi-php-fpm-httpd/somefiles_for_scripts/mark_version.sh
 
+RUN mv /etc/httpd/conf.d/php74-php.conf /etc/httpd/conf.d/php74-php.conf_bak
+RUN mv /etc/httpd/conf.d/php84-php.conf /etc/httpd/conf.d/php84-php.conf_bak
+
 # Configure PHP-FPM to run with Apache
 #RUN systemctl enable php-fpm.service httpd.service
 
