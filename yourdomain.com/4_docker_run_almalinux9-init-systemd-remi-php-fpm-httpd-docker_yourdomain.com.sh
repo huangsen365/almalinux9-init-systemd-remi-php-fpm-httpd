@@ -1,5 +1,13 @@
 #!/bin/bash
 
+# Ensure REMIPHPPATH is set
+if [ -z "$REMIPHPPATH" ]; then
+    echo "REMIPHPPATH is not set...exiting..."
+    exit 1
+else
+    echo "REMIPHPPATH is : ${REMIPHPPATH}"
+fi
+
 # Set the base directory for your domain
 cd ${REMIPHPPATH}/yourdomain.com
 current_dir=$(pwd)
