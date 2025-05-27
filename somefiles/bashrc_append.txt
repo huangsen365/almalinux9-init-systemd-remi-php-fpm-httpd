@@ -6,4 +6,13 @@ export HISTSIZE=999999999
 export HISTTIMEFORMAT="%F %T "
 export VISUAL="vim"
 export EDITOR="vim"
+# Enable color for 'ls'
 alias ls='ls --color=auto'
+# Useful aliases for listing files
+alias ll='ls -lhF'
+alias la='ls -lAhF'
+alias l='ls -lF'
+# Extra: safer remove, move, copy
+alias rm='rm -i'
+alias cp='cp -i'
+alias mv='mv -i'
