@@ -4,8 +4,8 @@
     <meta charset="utf-8">
     <script type="text/javascript">
 
-        // wget https://raw-githubusercontent-com-huangsen365.wansio.com/huangsen365/centos7-remi-php/master/somefiles/gitpull.php -O gitpull.php
-        // curl -fsSL https://raw-githubusercontent-com-huangsen365.wansio.com/huangsen365/centos7-remi-php/master/somefiles/gitpull.php -o gitpull.php
+        // wget https://raw-githubusercontent-com.jiasu.yunbiyun.com/huangsen365/almalinux9-init-systemd-remi-php-fpm-httpd/refs/heads/main/somefiles/gitpull.php -O gitpull.php
+        // curl -fsSL https://raw-githubusercontent-com.jiasu.yunbiyun.com/huangsen365/almalinux9-init-systemd-remi-php-fpm-httpd/refs/heads/main/somefiles/gitpull.php -o gitpull.php
 
         function myFunction() {
             document.getElementById('myBtn').textContent = 'git pull';
