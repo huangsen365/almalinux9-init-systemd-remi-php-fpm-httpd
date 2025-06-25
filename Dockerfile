@@ -28,32 +28,34 @@ RUN echo "ServerName localhost" >> /etc/httpd/conf/httpd.conf
 # wget https://raw-githubusercontent-com.jiasu.yunbiyun.com/huangsen365/almalinux9-init-systemd-remi-php-fpm-httpd/refs/heads/main/dnf_basics.txt
 ADD dnf_basics.txt /opt/dnf_basics.txt
 RUN dnf -y install $(cat /opt/dnf_basics.txt | grep -v '#') && \
-    dnf -y install php74 php84 \
-	php74-php-fpm php84-php-fpm
+    dnf -y install php74 \
+	php74-php-fpm
+    # Temporarily disabled PHP 8.4 due to dependency issues
+    # dnf -y install php84 php84-php-fpm
 
 COPY www_php-fpm_7400.conf /etc/opt/remi/php74/php-fpm.d/www.conf
-COPY www_php-fpm_8400.conf /etc/opt/remi/php84/php-fpm.d/www.conf
+# COPY www_php-fpm_8400.conf /etc/opt/remi/php84/php-fpm.d/www.conf
 COPY php-fpm_7401_www.yourdomain.com_NEW2.conf_template /etc/opt/remi/php74/php-fpm.d/php-fpm_7401_www.yourdomain.com_NEW2.conf_template
-COPY php-fpm_8401_www.yourdomain.com_NEW2.conf_template /etc/opt/remi/php84/php-fpm.d/php-fpm_8401_www.yourdomain.com_NEW2.conf_template
+# COPY php-fpm_8401_www.yourdomain.com_NEW2.conf_template /etc/opt/remi/php84/php-fpm.d/php-fpm_8401_www.yourdomain.com_NEW2.conf_template
 
 ADD somefiles_for_dnf /opt/almalinux9-init-systemd-remi-php-fpm-httpd/somefiles_for_dnf
 RUN dnf -y install $(cat /opt/almalinux9-init-systemd-remi-php-fpm-httpd/somefiles_for_dnf/dnf_search_php_extensions_list_php74_defined.txt | grep -v '#')
-RUN dnf -y install $(cat /opt/almalinux9-init-systemd-remi-php-fpm-httpd/somefiles_for_dnf/dnf_search_php_extensions_list_php84_defined.txt | grep -v '#')
+# RUN dnf -y install $(cat /opt/almalinux9-init-systemd-remi-php-fpm-httpd/somefiles_for_dnf/dnf_search_php_extensions_list_php84_defined.txt | grep -v '#')
 RUN dnf -y install $(cat /opt/almalinux9-init-systemd-remi-php-fpm-httpd/somefiles_for_dnf/dnf_search_php_extensions_list_php74_defined2.txt | grep -v '#') --exclude="$(cat /opt/almalinux9-init-systemd-remi-php-fpm-httpd/somefiles_for_dnf/dnf_search_php_extensions_list_php74_defined2-exclude.txt)"
-RUN dnf -y install $(cat /opt/almalinux9-init-systemd-remi-php-fpm-httpd/somefiles_for_dnf/dnf_search_php_extensions_list_php84_defined2.txt | grep -v '#') --exclude="$(cat /opt/almalinux9-init-systemd-remi-php-fpm-httpd/somefiles_for_dnf/dnf_search_php_extensions_list_php84_defined2-exclude.txt)"
+# RUN dnf -y install $(cat /opt/almalinux9-init-systemd-remi-php-fpm-httpd/somefiles_for_dnf/dnf_search_php_extensions_list_php84_defined2.txt | grep -v '#') --exclude="$(cat /opt/almalinux9-init-systemd-remi-php-fpm-httpd/somefiles_for_dnf/dnf_search_php_extensions_list_php84_defined2-exclude.txt)"
 
 ADD somefiles /opt/almalinux9-init-systemd-remi-php-fpm-httpd/somefiles
 RUN sh /opt/almalinux9-init-systemd-remi-php-fpm-httpd/somefiles/mkdir.sh
 RUN sh /opt/almalinux9-init-systemd-remi-php-fpm-httpd/somefiles/rsync.sh
 
 RUN sed -i '/include\=\/etc\/opt\/remi\/php74\/php-fpm.d\/\*\.conf/a include\=\/etc\/opt\/remi\/php74\/php-fpm2.d\/\*\.conf' /etc/opt/remi/php74/php-fpm.conf
-RUN sed -i '/include\=\/etc\/opt\/remi\/php84\/php-fpm.d\/\*\.conf/a include\=\/etc\/opt\/remi\/php84\/php-fpm2.d\/\*\.conf' /etc/opt/remi/php84/php-fpm.conf
+# RUN sed -i '/include\=\/etc\/opt\/remi\/php84\/php-fpm.d\/\*\.conf/a include\=\/etc\/opt\/remi\/php84\/php-fpm2.d\/\*\.conf' /etc/opt/remi/php84/php-fpm.conf
 
 ADD somefiles_for_scripts /opt/almalinux9-init-systemd-remi-php-fpm-httpd/somefiles_for_scripts
 RUN sh /opt/almalinux9-init-systemd-remi-php-fpm-httpd/somefiles_for_scripts/mark_version.sh
 
 RUN mv /etc/httpd/conf.d/php74-php.conf /etc/httpd/conf.d/php74-php.conf_bak
-RUN mv /etc/httpd/conf.d/php84-php.conf /etc/httpd/conf.d/php84-php.conf_bak
+# RUN mv /etc/httpd/conf.d/php84-php.conf /etc/httpd/conf.d/php84-php.conf_bak
 
 # Configure PHP-FPM to run with Apache
 #RUN systemctl enable php-fpm.service httpd.service
@@ -64,7 +66,7 @@ RUN mv /etc/httpd/conf.d/php84-php.conf /etc/httpd/conf.d/php84-php.conf_bak
 # Enable the php-fpm and httpd service
 RUN systemctl disable sshd.service
 RUN systemctl enable php74-php-fpm.service
-RUN systemctl enable php84-php-fpm.service
+# RUN systemctl enable php84-php-fpm.service
 RUN systemctl enable httpd.service crond.service 
 
 #RUN dnf clean all
