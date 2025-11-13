@@ -9,7 +9,7 @@ export EDITOR="vim"
 # Enable color for 'ls'
 alias ls='ls --color=auto'
 # Useful aliases for listing files
-alias ll='ls -lhF'
+alias ll='ls -alhF'
 alias la='ls -lAhF'
 alias l='ls -lF'
 # Extra: safer remove, move, copy
