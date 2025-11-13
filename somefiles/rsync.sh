@@ -3,7 +3,7 @@ ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 useradd sshuser
 usermod -aG apache sshuser
 
-#sed -i 's/AllowOverride\ None/AllowOverride\ All/g' /etc/httpd/conf/httpd.conf
+sed -i 's/AllowOverride\ None/AllowOverride\ All/g' /etc/httpd/conf/httpd.conf
 sed -i 's/^User apache$/User sshuser/' /etc/httpd/conf/httpd.conf
 sed -i 's/^Group apache$/Group sshuser/' /etc/httpd/conf/httpd.conf
 echo "IncludeOptional conf2.d/*.conf" >> /etc/httpd/conf/httpd.conf
