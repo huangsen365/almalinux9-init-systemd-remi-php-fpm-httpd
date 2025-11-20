@@ -1,7 +1,7 @@
-# grep githubusercontent /etc/bashrc ; if [ $? -eq 0 ]; then echo 'no need to append for bashrc file' ; else curl -fsSL https://github-com.jiasu.yunbiyun.com/huangsen365/almalinux9-init-systemd-remi-php-fpm-httpd/main/somefiles/bashrc_append.txt >> /etc/bashrc ; fi
+# grep githubusercontent /etc/bashrc ; if [ $? -eq 0 ]; then echo 'no need to append for bashrc file' ; else curl -fsSL https://raw-githubusercontent-com.jiasu.yunbiyun.com/huangsen365/almalinux9-init-systemd-remi-php-fpm-httpd/refs/heads/main/somefiles/bashrc_append.txt >> /etc/bashrc ; fi
 
-# Refer to https://raw.githubusercontent.com/huangsen365/almalinux9-init-systemd-remi-php-fpm-httpd/main/somefiles/bashrc_append.txt
-# Refer to https://github-com.jiasu.yunbiyun.com/huangsen365/almalinux9-init-systemd-remi-php-fpm-httpd/main/somefiles/bashrc_append.txt
+# Refer to https://raw-githubusercontent-com.jiasu.yunbiyun.com/huangsen365/almalinux9-init-systemd-remi-php-fpm-httpd/refs/heads/main/somefiles/bashrc_append.txt
+# Refer to https://raw-githubusercontent-com.jiasu.yunbiyun.com/huangsen365/almalinux9-init-systemd-remi-php-fpm-httpd/refs/heads/main/somefiles/bashrc_append.txt
 export HISTSIZE=999999999
 export HISTTIMEFORMAT="%F %T "
 export VISUAL="vim"
