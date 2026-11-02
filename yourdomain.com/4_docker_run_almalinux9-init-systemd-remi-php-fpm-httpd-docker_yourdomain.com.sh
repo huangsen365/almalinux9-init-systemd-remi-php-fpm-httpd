@@ -83,6 +83,7 @@ docker run -d \
   -v $current_dir/volumes/volume_yourdomain.com/var/opt/remi/php84/lib/php:/var/opt/remi/php84/lib/php \
   -v $current_dir/volumes/volume_yourdomain.com/etc/opt/remi/php74/php-fpm2.d:/etc/opt/remi/php74/php-fpm2.d \
   -v $current_dir/volumes/volume_yourdomain.com/etc/opt/remi/php84/php-fpm2.d:/etc/opt/remi/php84/php-fpm2.d \
+  -p 80:80 \
   -p 443:443 \
   -p 2222:22 \
   --restart always \
