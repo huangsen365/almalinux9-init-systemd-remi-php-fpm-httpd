@@ -72,8 +72,8 @@ RUN systemctl enable httpd.service crond.service
 #RUN dnf clean all
 RUN dnf -y update && dnf clean all
 
-# Expose the HTTPS port
-EXPOSE 443
+# Expose the HTTP and HTTPS ports
+EXPOSE 80 443
 
 WORKDIR $HOME
 
