@@ -62,6 +62,15 @@ rsync -av $current_dir/volumes/volume_yourdomain.com/var/log/ \
 rsync -av $current_dir/volumes/volume_yourdomain.com/var/spool/cron/ \
   $current_dir/volumes/volume_yourdomain.com/var/spool/$cron_dir_name/
 
+# Older volumes may not have the PHP 8.5 directories yet.
+volume_dir="$current_dir/volumes/volume_yourdomain.com"
+php85_state=/var/opt/remi/php85/lib/php
+php85_pools=/etc/opt/remi/php85/php-fpm2.d
+set --
+if [ -d "$volume_dir$php85_state/session" ] && [ -d "$volume_dir$php85_pools" ]; then
+  set -- -v "$volume_dir$php85_state:$php85_state" -v "$volume_dir$php85_pools:$php85_pools"
+fi
+
 # Start a new container if no container with the specified image is found
 docker run -d \
   --privileged \
@@ -83,6 +92,7 @@ docker run -d \
   -v $current_dir/volumes/volume_yourdomain.com/var/opt/remi/php84/lib/php:/var/opt/remi/php84/lib/php \
   -v $current_dir/volumes/volume_yourdomain.com/etc/opt/remi/php74/php-fpm2.d:/etc/opt/remi/php74/php-fpm2.d \
   -v $current_dir/volumes/volume_yourdomain.com/etc/opt/remi/php84/php-fpm2.d:/etc/opt/remi/php84/php-fpm2.d \
+  "$@" \
   -p 80:80 \
   -p 443:443 \
   -p 2222:22 \

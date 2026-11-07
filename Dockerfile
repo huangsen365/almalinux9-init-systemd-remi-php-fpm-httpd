@@ -33,10 +33,16 @@ RUN dnf -y install $(cat /opt/dnf_basics.txt | grep -v '#') && \
     # Temporarily disabled PHP 8.4 due to dependency issues
     # dnf -y install php84 php84-php-fpm
 
+RUN dnf -y install php85 php85-php-cli php85-php-fpm \
+    php85-php-bcmath php85-php-gd php85-php-intl php85-php-mbstring \
+    php85-php-mysqlnd php85-php-pdo php85-php-soap php85-php-xml php85-php-pecl-zip
+
 COPY www_php-fpm_7400.conf /etc/opt/remi/php74/php-fpm.d/www.conf
 # COPY www_php-fpm_8400.conf /etc/opt/remi/php84/php-fpm.d/www.conf
+COPY www_php-fpm_8500.conf /etc/opt/remi/php85/php-fpm.d/www.conf
 COPY php-fpm_7401_www.yourdomain.com_NEW2.conf_template /etc/opt/remi/php74/php-fpm.d/php-fpm_7401_www.yourdomain.com_NEW2.conf_template
 # COPY php-fpm_8401_www.yourdomain.com_NEW2.conf_template /etc/opt/remi/php84/php-fpm.d/php-fpm_8401_www.yourdomain.com_NEW2.conf_template
+COPY php-fpm_8501_www.yourdomain.com_NEW2.conf_template /etc/opt/remi/php85/php-fpm.d/php-fpm_8501_www.yourdomain.com_NEW2.conf_template
 
 ADD somefiles_for_dnf /opt/almalinux9-init-systemd-remi-php-fpm-httpd/somefiles_for_dnf
 RUN dnf -y install $(cat /opt/almalinux9-init-systemd-remi-php-fpm-httpd/somefiles_for_dnf/dnf_search_php_extensions_list_php74_defined.txt | grep -v '#')
@@ -50,6 +56,7 @@ RUN sh /opt/almalinux9-init-systemd-remi-php-fpm-httpd/somefiles/rsync.sh
 
 RUN sed -i '/include\=\/etc\/opt\/remi\/php74\/php-fpm.d\/\*\.conf/a include\=\/etc\/opt\/remi\/php74\/php-fpm2.d\/\*\.conf' /etc/opt/remi/php74/php-fpm.conf
 # RUN sed -i '/include\=\/etc\/opt\/remi\/php84\/php-fpm.d\/\*\.conf/a include\=\/etc\/opt\/remi\/php84\/php-fpm2.d\/\*\.conf' /etc/opt/remi/php84/php-fpm.conf
+RUN printf '\ninclude=/etc/opt/remi/php85/php-fpm2.d/*.conf\n' >> /etc/opt/remi/php85/php-fpm.conf
 
 ADD somefiles_for_scripts /opt/almalinux9-init-systemd-remi-php-fpm-httpd/somefiles_for_scripts
 RUN sh /opt/almalinux9-init-systemd-remi-php-fpm-httpd/somefiles_for_scripts/mark_version.sh
@@ -67,10 +74,16 @@ RUN mv /etc/httpd/conf.d/php74-php.conf /etc/httpd/conf.d/php74-php.conf_bak
 RUN systemctl disable sshd.service
 RUN systemctl enable php74-php-fpm.service
 # RUN systemctl enable php84-php-fpm.service
+RUN systemctl enable php85-php-fpm.service
 RUN systemctl enable httpd.service crond.service 
 
 #RUN dnf clean all
 RUN dnf -y update && dnf clean all
+
+# Let each Apache virtual host select its PHP-FPM socket explicitly.
+RUN mv /etc/httpd/conf.d/php85-php.conf /etc/httpd/conf.d/php85-php.conf_bak && \
+    /opt/remi/php85/root/usr/bin/php -r 'exit(PHP_MAJOR_VERSION === 8 && PHP_MINOR_VERSION === 5 ? 0 : 1);' && \
+    /opt/remi/php85/root/usr/sbin/php-fpm -t
 
 # Expose the HTTP and HTTPS ports
 EXPOSE 80 443

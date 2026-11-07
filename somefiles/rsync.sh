@@ -62,4 +62,17 @@ rsync -av /var/opt/remi/php84/lib/php/wsdlcache/ /opt/almalinux9-init-systemd-re
 
 
 
+defaults=/opt/almalinux9-init-systemd-remi-php-fpm-httpd/default_paths_for_docker
+php85_pools=/etc/opt/remi/php85/php-fpm2.d
+php85_state=/var/opt/remi/php85/lib/php
+mkdir -p "$php85_pools" "$defaults$php85_pools" "$defaults$php85_state" &&
+    install -d -o sshuser -g sshuser -m 0770 \
+        "$php85_state/opcache/www.yourdomain.com" \
+        "$php85_state/session/www.yourdomain.com" \
+        "$php85_state/wsdlcache/www.yourdomain.com" &&
+    install -m 0644 \
+        /etc/opt/remi/php85/php-fpm.d/php-fpm_8501_www.yourdomain.com_NEW2.conf_template \
+        "$defaults$php85_pools/php-fpm_8501_www.yourdomain.com_NEW2.conf" &&
+    rsync -a "$php85_state/" "$defaults$php85_state/" || exit 1
+
 rsync -av /var/spool/cron/ /opt/almalinux9-init-systemd-remi-php-fpm-httpd/default_paths_for_docker/var/spool/cron/
